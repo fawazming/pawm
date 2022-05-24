@@ -123,6 +123,82 @@ class Home extends BaseController
 			return view('response', ['msg' => 'Leave here now!']);
 		}
 	}
-	//--------------------------------------------------------------------
+	//--------------------------------------------------------------------//
+
+	public function oga()
+	{
+		echo view('oga');
+	}
+
+	public function poga()
+	{
+		$incoming = $this->request->getPost();
+		$login = [
+			'uname' => $_ENV['uname'],
+			'pword' => $_ENV['pword'],
+		];
+		if($incoming == $login){
+			echo view('dashboard');
+		}else{
+			echo "Get out of here";
+		}
+	}
+
+
+	public function genpin()
+	{
+		$Pins = new \App\Models\Pins();
+		
+		$incoming = $this->request->getPost();
+		$error = '';
+		$collated = [];
+
+		if(empty($incoming['phone'])){
+			$error = $error.' No Phone Number,';
+		}
+		if(($incoming['network']) == ''){
+			$error = $error.' Select a network,';
+		}
+		if(empty($incoming['plan'])){
+			$error = $error.' Select a data Plan,';
+		}
+		if(empty($incoming['quantity'])){
+			$error = $error.' Select number of pin to gen';
+		}
+		
+		$rounds = $incoming['quantity'];
+		if(empty($error)){
+			for ($i=0; $i < $rounds; $i++) { 
+				$collated[$i] = [
+					'pin' => $this->pgen(),
+					'worth' => $incoming['network'].' '.$incoming['plan'],
+					'owner' => $incoming['phone'],
+					'viewed' => 1,
+					'used' => 0
+				];
+			}
+			$extractedPins = [];
+			foreach ($collated as $ky => $col) {
+			 	$extractedPins[$ky] = $col['pin'];
+			 }
+
+			$res = $Pins->insertBatch($collated);
+			
+			if($res){return view('generatedpins', [
+				'pins' => $extractedPins, 
+				'agent'=> $incoming['phone'], 
+				'quantity' => $incoming['quantity'], 
+				'network' => $incoming['network'],
+				'plan' => $incoming['plan'],
+			]);}
+
+			// var_dump($extractedPins);
+
+		}else{
+			echo 'I cannot proceed because of error: <br> '. $error;
+		}
+
+
+	}
 
 }
