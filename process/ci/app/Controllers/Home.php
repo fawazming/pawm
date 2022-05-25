@@ -201,4 +201,50 @@ class Home extends BaseController
 
 	}
 
+	public function sms()
+	{
+		$incoming = $this->request->getGet();
+		$res = $this->sendsms($incoming['ph'], urldecode($incoming['sm'])) );
+		if($res){
+			echo "SMS sent to ".$incoming['ph'];
+		}else{
+			echo "Error while sending";
+		}
+	}
+
+	public function sendsms($phone, $message)
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, [
+		  CURLOPT_URL => "https://api.dojah.io/api/v1/messaging/sms",
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 30,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "POST",
+		  CURLOPT_POSTFIELDS => "{\"sender_id\":\"khalifahSq\",\"destination\":\"".$phone ."\",\"channel\":\"sms\",\"message\":\"".$message."\"}",
+		  CURLOPT_HTTPHEADER => [
+		    "Accept: text/plain",
+		    "AppId: ".$_ENV['AppId'],
+		    "Authorization: "$_ENV['ProdKey'],
+		    "Content-Type: application/json"
+		  ],
+		]);
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err) {
+			return false;
+		  // return $err;
+		} else {
+		  // return $response;
+			return true;
+		}
+	}
+
 }

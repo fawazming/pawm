@@ -33,6 +33,10 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 
 $routes->get('/oga', 'Home::oga');
+$routes->get('/sms', 'Home::sms');
+
+$routes->get('/test', 'Home::test');
+
 $routes->post('/pin', 'Home::genpin');
 $routes->post('/oga', 'Home::poga');
 
