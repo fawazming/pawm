@@ -43,10 +43,17 @@ function plan($plan)
 	</p>
 	<?php $pns = ''; ?>
 	<?php foreach ($pins as $pin):?>
-		<?php $pns = $pns.'%20'.$pin; ?>
+		<?php $pns = $pns.' | '.$pin; ?>
 	<p><?=$pin?></p>
 	<?php endforeach; ?>
-	<a href='<?php echo base_url("sms?ph=".$agent."&sm=".network($network)."%20".plan($plan).$pns)?>'>SMS</a>
+
+	<form method="get" action="<?=base_url('sms')?>">
+		<input type="hidden" name="ph" value="<?=$agent?>">
+		<textarea name="sm"><?php echo plan($plan).' '.$pns?></textarea><br>
+		<input type="submit" value="Send">
+	</form>
+
+	<!-- <a href='<?php echo base_url("sms?ph=".$agent."&sm=".plan($plan).$pns)?>'>SMS</a> -->
 	<small>Powered by Rayyan Technologies</small>
 </body>
 </html>

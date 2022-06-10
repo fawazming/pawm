@@ -31,16 +31,18 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('/info', 'Home::info');
 
 $routes->get('/oga', 'Home::oga');
 $routes->get('/sms', 'Home::sms');
+$routes->get('/writesms', 'Home::writesms');
 
-$routes->get('/test', 'Home::test');
+// $routes->get('/test', 'Home::test');
 
 $routes->post('/pin', 'Home::genpin');
 $routes->post('/oga', 'Home::poga');
 
-$routes->get('/puk', 'Home::addPin');
+// $routes->get('/puk', 'Home::addPin');
 $routes->post('/aj85gxjimlp0875fsbbj4532sfy', 'Home::pro');
 
 /**

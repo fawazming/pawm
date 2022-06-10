@@ -2,6 +2,11 @@
 
 class Home extends BaseController
 {
+	public function info()
+	{
+		echo view('info');
+	}
+
 	public function pro()
 	{
 		$incoming = $this->request->getPost();
@@ -31,6 +36,24 @@ class Home extends BaseController
 		}else{
 			return $data;
 		}
+	}
+
+	private function balance()
+	{
+		$data = array("token" => $_ENV['SABUSS']);
+		$curl= curl_init();
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => "https://samorabot.com/vtu/api/balance/",
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => "",
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 30,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "POST",
+		  CURLOPT_POSTFIELDS => $data,
+		));
+		$result=curl_exec($curl);
+		return $result;
 	}
 
 	private function postcall($result, $data)
@@ -138,7 +161,8 @@ class Home extends BaseController
 			'pword' => $_ENV['pword'],
 		];
 		if($incoming == $login){
-			echo view('dashboard');
+			$balance = $this->balance();
+			echo view('dashboard', ['bal' => $balance, 'mod' => $_ENV['mod']]);
 		}else{
 			echo "Get out of here";
 		}
@@ -201,12 +225,18 @@ class Home extends BaseController
 
 	}
 
+	public function writesms()
+	{
+		echo view('writesms');
+	}
+
 	public function sms()
 	{
 		$incoming = $this->request->getGet();
-		$res = $this->sendsms($incoming['ph'], urldecode($incoming['sm'])) );
+		$res = $this->sendsms($incoming['ph'], $incoming['sm']);
 		if($res){
-			echo "SMS sent to ".$incoming['ph'];
+			// echo "SMS sent to ".$incoming['ph'];
+			var_dump($res);
 		}else{
 			echo "Error while sending";
 		}
@@ -224,11 +254,11 @@ class Home extends BaseController
 		  CURLOPT_TIMEOUT => 30,
 		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 		  CURLOPT_CUSTOMREQUEST => "POST",
-		  CURLOPT_POSTFIELDS => "{\"sender_id\":\"khalifahSq\",\"destination\":\"".$phone ."\",\"channel\":\"sms\",\"message\":\"".$message."\"}",
+		  CURLOPT_POSTFIELDS => "{\"sender_id\":\"PawmNG\",\"destination\":\"".$phone ."\",\"channel\":\"sms\",\"message\":\"".$message."\"}",
 		  CURLOPT_HTTPHEADER => [
 		    "Accept: text/plain",
 		    "AppId: ".$_ENV['AppId'],
-		    "Authorization: "$_ENV['ProdKey'],
+		    "Authorization: ".$_ENV['ProdKey'],
 		    "Content-Type: application/json"
 		  ],
 		]);
@@ -242,8 +272,8 @@ class Home extends BaseController
 			return false;
 		  // return $err;
 		} else {
-		  // return $response;
-			return true;
+		  return $response;
+			// return true;
 		}
 	}
 

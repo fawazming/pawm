@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 
 class Log extends Model
 {
-    protected $table = 'pin';
+    protected $table = 'log';
     protected $primaryKey = 'id';
 
     protected $returnType = 'array';
