@@ -6,7 +6,7 @@
 	<title>Dashboard</title>
 </head>
 <body>
-	<center id="app>
+	<center id="app">
 		<h1>Dashboard</h1>
 		<p><?=$bal?> pts</p>
 		<a href="<?=base_url('writesms')?>">SMS</a>
