@@ -181,8 +181,8 @@ class Home extends BaseController
 		$pins = $Pins->orderBy('created_at', 'DESC')->findall();
 		if($incoming == $login){
 			// dd($this->balance());
-			// $balance = json_decode($this->balance())->user->Account_Balance;
-			$balance = 0;
+			$balance = json_decode($this->balance())->user->Account_Balance;
+			// $balance = 0;
 			echo view('dashboard', ['bal' => $balance, 'mod' => $_ENV['mod'], 'pins' => $pins]);
 		}else{
 			echo "Get out of here";
