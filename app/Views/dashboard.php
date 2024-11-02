@@ -78,8 +78,9 @@
 				<script>
 					function sshot() {
 						html2canvas(document.querySelector('main')).then(canvas => {
+							let w = document.querySelector('#worthh').innerText;
 							let a = document.createElement("a");
-							a.download = "PAWmobile.png";
+							a.download = `PAWmobile ${w}.png`;
 							a.href = canvas.toDataURL("image/png");
 							a.click(); // MAY NOT ALWAYS WORK!
 						});
