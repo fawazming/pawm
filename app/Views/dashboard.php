@@ -9,7 +9,7 @@
 	<center id="app">
 		<h1>Dashboard</h1>
 		<p><?=$bal?> pts</p>
-		<a href="<?=base_url('writesms')?>">SMS</a>
+		<!-- <a href="<?=base_url('writesms')?>">SMS</a> -->
 		<br>
 		<hr>
 
@@ -29,6 +29,9 @@
 				<option value="353">1GB</option>
 				<option value="354">2GB</option>
 				<option value="356">5GB</option>
+				<option value="486">1GB Awoof</option>
+				<option value="487">3.5GB Awoof</option>
+				<option value="488">15GB Awoof</option>
 			</select><br>
 			<select name="quantity">
 				<option value="">Quantity</option>
@@ -105,6 +108,12 @@
 				plan = "5GB";
 			}else if(plan == 364 || plan == 264){
 				plan = "25MB/100MB";
+			}else if(plan == 486){
+				plan = "1GB Awoof 24Hrs Validity";
+			}else if(plan == 487){
+				plan = "3.5GB Awoof 2Days Validity";
+			}else if(plan == 488){
+				plan = "15GB Awoof 7Days Validity";
 			}
 			console.log(pi, network, plan)
 			document.querySelector('#pinn').innerText = pi
