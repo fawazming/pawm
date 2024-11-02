@@ -67,12 +67,24 @@
 				</tbody>
 			</table>
 			<div id="printCanvas" style="width: 80mm;">
+				<main>
 				<center>
-					<h1>Paw Mobile</h1>
+					<h1 onclick="sshot()">🐾 Paw Mobile</h1>
 					<h2 id="pinn"></h2>
 					<h3 id="worthh"></h3>
 					<p onclick="pri()">To use pin, visit pawm.sgm.ng</p>
-				</center>
+				</center></main>
+				<script src="<?=base_url('assets/mmm.js')?>"></script>
+				<script>
+					function sshot() {
+						html2canvas(document.querySelector('main')).then(canvas => {
+							let a = document.createElement("a");
+							a.download = "PAWmobile.png";
+							a.href = canvas.toDataURL("image/png");
+							a.click(); // MAY NOT ALWAYS WORK!
+						});
+					}
+				</script>
 				<script>
 					function pri() {
 						window.print();
